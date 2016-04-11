@@ -16,6 +16,6 @@ if (session_token) {
   LoginActions.loginUser(session_token);
 }
 
-Router.run(routes,Router.HistoryLocation, function (Handler) {
+router.run(function (Handler) {
   ReactDOM.render(<Handler />, document.getElementById('app'));
 });
