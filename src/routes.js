@@ -9,12 +9,17 @@ var LoginActions = require('./actions/LoginActions');
 
 var Router = require('react-router');
 var Route = Router.Route;
+var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute = Router.DefaultRoute;
+var NotFoundPage = require('./components/NotFoundPage');
 
 var routes = (
-  <Route handler={AuthenticatedApp}>
+  <Route name="app" path="/" handler={AuthenticatedApp}>
+    <DefaultRoute handler={DefaultRoute} />
     <Route name="login" handler={Login}/>
     <Route name="signup" handler={Signup}/>
     <Route name="home" path="/" handler={Home}/>
+    <NotFoundRoute handler={NotFoundPage} />
   </Route>
 );
 

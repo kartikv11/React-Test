@@ -5,15 +5,9 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router');
 
-var Route = Router.Route;
 var RouterContainer = require('./services/RouterContainer');
 var LoginActions = require('./actions/LoginActions');
-var AuthenticatedApp = require('./components/AuthenticatedApp');
-var Login = require('./components/Login');
-var Signup = require('./components/Signup');
-var Home = require('./components/Home');
-
-var routes = React.createElement(Route, { handler: AuthenticatedApp }, React.createElement(Route, { name: 'login', handler: Login }), React.createElement(Route, { name: 'signup', handler: Signup }), React.createElement(Route, { name: 'home', path: '/', handler: Home }));
+var routes = require('./routes');
 
 var router = Router.create({ routes: routes });
 RouterContainer.set(router);
@@ -23,11 +17,11 @@ if (session_token) {
   LoginActions.loginUser(session_token);
 }
 
-router.run(function (Handler) {
+Router.run(routes, Router.HistoryLocation, function (Handler) {
   ReactDOM.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./actions/LoginActions":344,"./components/AuthenticatedApp":345,"./components/Home":347,"./components/Login":348,"./components/Signup":349,"./services/RouterContainer":353,"react":322,"react-dom":115,"react-router":142}],2:[function(require,module,exports){
+},{"./actions/LoginActions":344,"./routes":353,"./services/RouterContainer":355,"react":322,"react-dom":115,"react-router":142}],2:[function(require,module,exports){
 /*!
   * Bowser - a browser detector
   * https://github.com/ded/bowser
@@ -38270,7 +38264,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{"../constants/LoginConstants":350,"../dispatcher/appDispatcher":351,"../services/RouterContainer":353}],345:[function(require,module,exports){
+},{"../constants/LoginConstants":351,"../dispatcher/appDispatcher":352,"../services/RouterContainer":355}],345:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -38392,7 +38386,7 @@ var AuthenticatedApp = (function (_React$Component) {
 exports['default'] = AuthenticatedApp;
 module.exports = exports['default'];
 
-},{"../services/AuthService":352,"../stores/LoginStore":355,"material-ui/lib/flat-button":60,"react":322,"react-router":142}],346:[function(require,module,exports){
+},{"../services/AuthService":354,"../stores/LoginStore":357,"material-ui/lib/flat-button":60,"react":322,"react-router":142}],346:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -38514,7 +38508,7 @@ exports['default'] = function (ComposedComponent) {
 
 module.exports = exports['default'];
 
-},{"../stores/LoginStore":355,"react":322}],347:[function(require,module,exports){
+},{"../stores/LoginStore":357,"react":322}],347:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -38755,7 +38749,23 @@ exports['default'] = Login;
 ReactMixin(Login.prototype, LinkedStateMixin);
 module.exports = exports['default'];
 
-},{"../services/AuthService":352,"material-ui/lib/card/card":56,"material-ui/lib/card/card-actions":52,"material-ui/lib/card/card-text":54,"material-ui/lib/card/card-title":55,"material-ui/lib/flat-button":60,"material-ui/lib/snackbar":73,"material-ui/lib/text-field":95,"react":322,"react-addons-linked-state-mixin":111,"react-mixin":116}],349:[function(require,module,exports){
+},{"../services/AuthService":354,"material-ui/lib/card/card":56,"material-ui/lib/card/card-actions":52,"material-ui/lib/card/card-text":54,"material-ui/lib/card/card-title":55,"material-ui/lib/flat-button":60,"material-ui/lib/snackbar":73,"material-ui/lib/text-field":95,"react":322,"react-addons-linked-state-mixin":111,"react-mixin":116}],349:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var Link = require('react-router').Link;
+
+var NotFoundPage = React.createClass({
+  displayName: 'NotFoundPage',
+
+  render: function render() {
+    return React.createElement('div', { className: 'container-fluid' }, React.createElement('h1', null, 'Page Not Found'), React.createElement('p', null, 'Whoops! Sorry, there is nothing to see here.'), React.createElement('p', null, React.createElement(Link, { to: 'app' }, 'Back to Home')));
+  }
+});
+
+module.exports = NotFoundPage;
+
+},{"react":322,"react-router":142}],350:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -39002,7 +39012,7 @@ exports['default'] = Signup;
 ReactMixin(Signup.prototype, LinkedStateMixin);
 module.exports = exports['default'];
 
-},{"../services/AuthService":352,"material-ui/lib/divider":57,"material-ui/lib/paper":68,"material-ui/lib/raised-button":69,"material-ui/lib/snackbar":73,"material-ui/lib/text-field":95,"react":322,"react-addons-linked-state-mixin":111,"react-mixin":116}],350:[function(require,module,exports){
+},{"../services/AuthService":354,"material-ui/lib/divider":57,"material-ui/lib/paper":68,"material-ui/lib/raised-button":69,"material-ui/lib/snackbar":73,"material-ui/lib/text-field":95,"react":322,"react-addons-linked-state-mixin":111,"react-mixin":116}],351:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -39018,7 +39028,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{}],351:[function(require,module,exports){
+},{}],352:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -39043,7 +39053,27 @@ var _flux = require('flux');
 exports['default'] = new _flux.Dispatcher();
 module.exports = exports['default'];
 
-},{"flux":5}],352:[function(require,module,exports){
+},{"flux":5}],353:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+var AuthenticatedApp = require('./components/AuthenticatedApp');
+var Login = require('./components/Login');
+var Signup = require('./components/Signup');
+var Home = require('./components/Home');
+var LoginActions = require('./actions/LoginActions');
+
+var Router = require('react-router');
+var Route = Router.Route;
+var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute = Router.DefaultRoute;
+var NotFoundPage = require('./components/NotFoundPage');
+
+var routes = React.createElement(Route, { name: 'app', path: '/', handler: AuthenticatedApp }, React.createElement(DefaultRoute, { handler: DefaultRoute }), React.createElement(Route, { name: 'login', handler: Login }), React.createElement(Route, { name: 'signup', handler: Signup }), React.createElement(Route, { name: 'home', path: '/', handler: Home }), React.createElement(NotFoundRoute, { handler: NotFoundPage }));
+
+module.exports = routes;
+
+},{"./actions/LoginActions":344,"./components/AuthenticatedApp":345,"./components/Home":347,"./components/Login":348,"./components/NotFoundPage":349,"./components/Signup":350,"react":322,"react-router":142}],354:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -39144,7 +39174,7 @@ var AuthService = (function () {
 exports['default'] = new AuthService();
 module.exports = exports['default'];
 
-},{"../actions/LoginActions":344,"../constants/LoginConstants":350,"reqwest":323,"when":343}],353:[function(require,module,exports){
+},{"../actions/LoginActions":344,"../constants/LoginConstants":351,"reqwest":323,"when":343}],355:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39161,7 +39191,7 @@ exports["default"] = {
 };
 module.exports = exports["default"];
 
-},{}],354:[function(require,module,exports){
+},{}],356:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -39258,7 +39288,7 @@ var BaseStore = (function (_EventEmitter) {
 exports['default'] = BaseStore;
 module.exports = exports['default'];
 
-},{"../dispatcher/appDispatcher":351,"events":4}],355:[function(require,module,exports){
+},{"../dispatcher/appDispatcher":352,"events":4}],357:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -39371,4 +39401,4 @@ var LoginStore = (function (_BaseStore) {
 exports['default'] = new LoginStore();
 module.exports = exports['default'];
 
-},{"../constants/LoginConstants":350,"./BaseStore":354}]},{},[1]);
+},{"../constants/LoginConstants":351,"./BaseStore":356}]},{},[1]);
