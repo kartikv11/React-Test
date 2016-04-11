@@ -5,7 +5,7 @@ var Router  = require('react-router');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Link = Router.Link;
 
-const style = {
+var style = {
   margin: 12,
 };
 

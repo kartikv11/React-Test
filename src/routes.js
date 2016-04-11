@@ -1,17 +1,20 @@
 "use strict";
 
 var React = require('react');
+var AuthenticatedApp = require('./components/AuthenticatedApp');
+var Login = require('./components/Login');
+var Signup = require('./components/Signup');
+var Home = require('./components/Home');
+var LoginActions = require('./actions/LoginActions');
 
 var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
 
 var routes = (
-  <Route name="app" path="/" handler={require('./components/app')}>
-    <DefaultRoute handler={require('./components/homePage')} />
-    <Route name="about" handler={require('./components/about/aboutPage')} />
-    <NotFoundRoute handler={require('./components/notFoundPage')} />
+  <Route handler={AuthenticatedApp}>
+    <Route name="login" handler={Login}/>
+    <Route name="signup" handler={Signup}/>
+    <Route name="home" path="/" handler={Home}/>
   </Route>
 );
 
