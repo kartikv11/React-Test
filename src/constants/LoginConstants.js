@@ -1,4 +1,4 @@
-var BASE_URL = 'http://192.168.0.105:10524/';
+var BASE_URL = 'http://localhost:10524/';
 export default {
   BASE_URL: BASE_URL,
   LOGIN_URL: BASE_URL + 'employee/login',
